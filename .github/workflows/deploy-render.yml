@@ -19,23 +19,6 @@ jobs:
           node-version-file: .node-version
           cache: npm
 
-      - name: Diagnosticar fonte Base64
-        run: |
-          cat activity-src.b64.part* | tr -d '\n\r' | base64 -d > /tmp/activity-base64.tar.gz
-          rm -rf /tmp/activity-base64-src
-          mkdir -p /tmp/activity-base64-src
-          tar -xzf /tmp/activity-base64.tar.gz -C /tmp/activity-base64-src
-          echo "=== INDEX ==="
-          nl -ba /tmp/activity-base64-src/index.html | sed -n '1,180p'
-          echo "=== ACTIVITY MATCHES ==="
-          grep -nE "participant|broadcast|room|launch|onrender|discordsays|status|WebSocket|session" /tmp/activity-base64-src/src/activity.js || true
-          echo "=== ACTIVITY 1-260 ==="
-          nl -ba /tmp/activity-base64-src/src/activity.js | sed -n '1,260p'
-          echo "=== SERVER ROOM/STATE ==="
-          nl -ba /tmp/activity-base64-src/server.mjs | sed -n '35,120p;315,370p;500,705p'
-          echo "=== STYLE MATCHES ==="
-          grep -nE "participant|toolbar|status|panel|viewer|mobile" /tmp/activity-base64-src/src/style.css || true
-
       - name: Validar build
         run: |
           npm ci
