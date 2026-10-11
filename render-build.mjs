@@ -1,6 +1,7 @@
 import { rmSync, mkdirSync, existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
+import { applyV44Patch } from './v44-multistream-patch.mjs';
 
 const cwd = process.cwd();
 const target = path.join(cwd, '.activity-live');
@@ -127,6 +128,7 @@ mkdirSync(target, { recursive: true });
 run('tar', ['-xzf', tempArchive, '-C', target]);
 
 if (recoveredFromBase64) applyV43RecoveryPatch();
+applyV44Patch(target);
 
 const env = {
   ...process.env,
@@ -141,4 +143,4 @@ if (!existsSync(path.join(target, 'package.json'))) {
 
 run('npm', ['install', '--no-audit', '--no-fund'], { cwd: target, env });
 run('npm', ['run', 'build'], { cwd: target, env });
-console.log(`Void Arena Activity compilada para o Render (${archiveBuffer.length} bytes de fonte${recoveredFromBase64 ? ', recuperação v4.3 aplicada' : ''}).`);
+console.log(`Void Arena Activity compilada para o Render (${archiveBuffer.length} bytes de fonte, v4.4 multi-stream aplicada).`);
