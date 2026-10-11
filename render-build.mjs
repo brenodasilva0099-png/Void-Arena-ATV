@@ -28,11 +28,16 @@ if (existsSync(repoArchive)) {
   archiveBuffer = Buffer.from(base64, 'base64');
 }
 
-if (archiveBuffer.length < 20_000) {
-  console.error(`Arquivo da Activity parece incompleto (${archiveBuffer.length} bytes).`);
+if (!archiveBuffer?.length) {
+  console.error('Arquivo da Activity está vazio.');
   process.exit(1);
 }
+
 writeFileSync(tempArchive, archiveBuffer);
+
+// Valida a integridade real do .tar.gz em vez de usar um limite arbitrário de tamanho.
+// A v4.3 comprime melhor que a v4.2 e pode ficar abaixo de 20 KB sem estar incompleta.
+run('tar', ['-tzf', tempArchive], { stdio: 'ignore' });
 
 rmSync(target, { recursive: true, force: true });
 mkdirSync(target, { recursive: true });
