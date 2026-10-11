@@ -1,0 +1,13 @@
+{
+  "name": "void-arena-atv-render",
+  "version": "4.2.2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node render-build.mjs",
+    "start": "node render-start.mjs"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}
