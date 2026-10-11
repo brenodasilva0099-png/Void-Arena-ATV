@@ -1,0 +1,22 @@
+name: Deploy Void Arena ATV no Render
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar deploy no Render
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK_URL" ]; then
+            echo "Secret RENDER_DEPLOY_HOOK_URL não configurado no repositório."
+            exit 1
+          fi
+          curl --fail --show-error --silent --request POST "$RENDER_DEPLOY_HOOK_URL"
+          echo "Deploy solicitado ao Render com sucesso."
