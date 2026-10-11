@@ -10,6 +10,20 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Validar build
+        run: |
+          npm ci
+          npm run build
+
       - name: Disparar deploy no Render
         env:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
