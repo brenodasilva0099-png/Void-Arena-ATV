@@ -24,6 +24,15 @@ jobs:
           npm ci
           npm run build
 
+      - name: Inspecionar fluxo de transmissão
+        run: |
+          echo '=== ACTIVITY WS/LAUNCH ==='
+          nl -ba .activity-live/src/activity.js | sed -n '340,640p'
+          echo '=== BROADCASTER ==='
+          nl -ba .activity-live/src/broadcaster.js | sed -n '1,760p'
+          echo '=== SERVER WS ==='
+          nl -ba .activity-live/server.mjs | sed -n '320,720p'
+
       - name: Disparar deploy no Render
         env:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
