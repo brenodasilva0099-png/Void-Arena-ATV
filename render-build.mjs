@@ -2,6 +2,7 @@ import { rmSync, mkdirSync, existsSync, readdirSync, readFileSync, writeFileSync
 import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { applyV44Patch } from './v44-multistream-patch.mjs';
+import { applyV45Patch } from './v45-display-latency-patch.mjs';
 
 const cwd = process.cwd();
 const target = path.join(cwd, '.activity-live');
@@ -129,6 +130,7 @@ run('tar', ['-xzf', tempArchive, '-C', target]);
 
 if (recoveredFromBase64) applyV43RecoveryPatch();
 applyV44Patch(target);
+applyV45Patch(target);
 
 const env = {
   ...process.env,
@@ -143,4 +145,4 @@ if (!existsSync(path.join(target, 'package.json'))) {
 
 run('npm', ['install', '--no-audit', '--no-fund'], { cwd: target, env });
 run('npm', ['run', 'build'], { cwd: target, env });
-console.log(`Void Arena Activity compilada para o Render (${archiveBuffer.length} bytes de fonte, v4.4 multi-stream aplicada).`);
+console.log(`Void Arena Activity compilada para o Render (${archiveBuffer.length} bytes de fonte, v4.5 aplicada).`);
