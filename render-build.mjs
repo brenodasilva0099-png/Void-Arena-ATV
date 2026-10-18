@@ -4,6 +4,7 @@ import path from 'node:path';
 import { applyV44Patch } from './v44-multistream-patch.mjs';
 import { applyV45Patch } from './v45-display-latency-patch.mjs';
 import { applyV46Patch } from './v46-studio-ui-patch.mjs';
+import { applyV47Patch } from './v47-fix-panels-branding.mjs';
 
 const cwd = process.cwd();
 const target = path.join(cwd, '.activity-live');
@@ -133,6 +134,7 @@ if (recoveredFromBase64) applyV43RecoveryPatch();
 applyV44Patch(target);
 applyV45Patch(target);
 applyV46Patch(target);
+applyV47Patch(target);
 
 const env = {
   ...process.env,
@@ -147,4 +149,4 @@ if (!existsSync(path.join(target, 'package.json'))) {
 
 run('npm', ['install', '--no-audit', '--no-fund'], { cwd: target, env });
 run('npm', ['run', 'build'], { cwd: target, env });
-console.log(`Void Arena Activity compilada para o Render (${archiveBuffer.length} bytes de fonte, v4.6 aplicada).`);
+console.log(`Void Arena Activity compilada para o Render (${archiveBuffer.length} bytes de fonte, v4.7 aplicada).`);
