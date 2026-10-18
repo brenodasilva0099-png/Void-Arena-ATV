@@ -1,0 +1,11 @@
+/* v4.7: painéis renderizados em uma camada acima do player, sem corte no grid */
+#vaPanelShade { position:fixed; inset:0; z-index:9000; background:rgba(3,4,12,.72); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .2s, visibility .2s; backdrop-filter:blur(4px); }
+#vaPanelShade.open { opacity:1; visibility:visible; pointer-events:auto; }
+body > .side-panel { position:fixed!important; z-index:9001!important; top:0!important; right:0!important; width:min(410px,96vw)!important; height:100dvh!important; overflow-y:auto!important; visibility:hidden; pointer-events:none!important; transform:translateX(105%)!important; transition:transform .22s, visibility .22s!important; box-shadow:-16px 0 65px #000a!important; }
+body > .side-panel.open { visibility:visible!important; pointer-events:auto!important; transform:translateX(0)!important; }
+body > .side-panel:focus { outline:none; }
+body > .side-panel .participant-empty { margin:12px; padding:13px; line-height:1.5; border:1px dashed #494066; border-radius:11px; background:#17182c; }
+body > .side-panel .participant-row { background:#19192d; border-color:#3b3358; }
+.brand-icon-wrap:has(.brand-icon:not(.hidden)) { background:#0e0b25!important; }
+.empty-logo img,.capture-orbit img { width:76%; height:76%; object-fit:contain; filter:drop-shadow(0 0 12px #a76bff85); }
+@media(max-width:600px) { body > .side-panel { width:100vw!important; } }
