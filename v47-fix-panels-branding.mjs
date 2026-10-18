@@ -31,6 +31,14 @@ export function applyV47Patch(root) {
   });
 
   edit(path.join(root, 'src', 'style.css'), (css) => css + '\n' + readFileSync(path.join(cwd, 'v47-panel-ui.css'), 'utf8'));
+  // Se o Discord retornar um ícone antigo ou inválido, mantém o emblema local.
+  edit(path.join(root, 'src', 'transport.js'), (js) => {
+    const needle = '          img.src = branding.iconUrl;';
+    if (!js.includes(needle)) throw new Error('[v4.7] image loader não encontrado');
+    return js.replace(needle,
+      "          img.onerror = () => { img.onerror = null; img.src = '/void-arena-mark.svg'; };\n          img.src = branding.iconUrl;");
+  });
+
   edit(path.join(root, 'index.html'), (html) => {
     if (!html.includes('id="participantsPanel"') || !html.includes('id="profilePanel"')) {
       throw new Error('[v4.7] Painéis ausentes do HTML');
